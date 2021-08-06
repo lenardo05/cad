@@ -1,3 +1,23 @@
+<?php
+
+require_once 'classes/autoload.php';
+require_once 'functions.php';
+
+$registro = new Registro();
+
+$registro->select();
+$qtd_registros = $registro->fetchAll('OBJ');
+
+$registro->extrasSelect = "WHERE updated is not null";
+$registro->select();
+$qtd_atualizados =  $registro->fetchAll();
+
+$registro->extrasSelect = "WHERE data_vencimento < '".date('Y-m-d')."'";
+$registro->select();
+$qtd_vencidos =  $registro->fetchAll();
+
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -108,66 +128,50 @@
     <!-- Main content -->
     <div class="content">
       <div class="container-fluid">
-
         <!-- Small boxes (Stat box) -->
         <div class="row">
-          <div class="col-lg-3 col-6">
+          <div class="col-lg-4 col-6">
             <!-- small box -->
             <div class="small-box bg-info">
               <div class="inner">
-                <h3>150</h3>
+                <h3><?=str_pad(count($qtd_registros) , 2 , '0' , STR_PAD_LEFT);?></h3>
 
-                <p>New Orders</p>
+                <p><b>Cadastrados</b></p>
               </div>
               <div class="icon">
-                <i class="ion ion-bag"></i>
+                <i class="ion ion-person"></i>
               </div>
-              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              
             </div>
           </div>
           <!-- ./col -->
-          <div class="col-lg-3 col-6">
-            <!-- small box -->
-            <div class="small-box bg-success">
-              <div class="inner">
-                <h3>53<sup style="font-size: 20px">%</sup></h3>
-
-                <p>Bounce Rate</p>
-              </div>
-              <div class="icon">
-                <i class="ion ion-stats-bars"></i>
-              </div>
-              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-          </div>
-          <!-- ./col -->
-          <div class="col-lg-3 col-6">
+          <div class="col-lg-4 col-6">
             <!-- small box -->
             <div class="small-box bg-warning">
               <div class="inner">
-                <h3>44</h3>
+                <h3><?=str_pad(count($qtd_atualizados) , 2 , '0' , STR_PAD_LEFT);?></h3>
 
-                <p>User Registrations</p>
+                <p><b>Atualizados</b></p>
               </div>
               <div class="icon">
-                <i class="ion ion-person-add"></i>
+                <i class="ion ion-person"></i>
               </div>
-              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              
             </div>
           </div>
           <!-- ./col -->
-          <div class="col-lg-3 col-6">
+          <div class="col-lg-4 col-6">
             <!-- small box -->
             <div class="small-box bg-danger">
               <div class="inner">
-                <h3>65</h3>
+                <h3><?=str_pad(count($qtd_vencidos) , 2 , '0' , STR_PAD_LEFT);?></h3>
 
-                <p>Unique Visitors</p>
+                <p><b>Vencidos</b></p>
               </div>
               <div class="icon">
-                <i class="ion ion-pie-graph"></i>
+                <i class="ion ion-person"></i>
               </div>
-              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+
             </div>
           </div>
           <!-- ./col -->
